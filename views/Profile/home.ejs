@@ -40,7 +40,7 @@ else{
 for(var i = 0 ; i < data.length ; i++) {
 %>
 <ul>
-    <li><a href="/user/<%= uid%>/<%= data[i].pid %>"><%= data[i].title%> </a>
+    <li><a href="/user/<%= uid%>/info/<%= data[i].pid %>"><%= data[i].title%> </a>
 <form method="post">
     <input type="hidden" value="<%= data[i].provider %>" name="rpp">
     <input type="hidden" value="<%= data[i].pid %>" name="rp">

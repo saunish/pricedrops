@@ -580,7 +580,7 @@ app.post('/user/:userID', function (req, res) {
 });
 
 
-app.get('/user/:userID/:product', function (req, res) {
+app.get('/user/:userID/info/:product', function (req, res) {
     var glob = {};
     var authData = ref.getAuth();
     var message = (req.query.message == undefined ? "" : req.query.message);
