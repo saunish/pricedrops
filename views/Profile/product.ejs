@@ -34,6 +34,7 @@ if(data == "No data in wishlist"){
 else{
 for(var i = 0 ; i < data.length ; i++) {
     if(productid == data[i].pid){
+    var x = i;
 %>
 <p><img src="<%= data[i].image%>" style="width:200px;height:200px;">
     <b>Product Name : <%= data[i].title %></b><br>
@@ -46,7 +47,7 @@ for(var i = 0 ; i < data.length ; i++) {
     <input type="submit" value="Remove" name="remove">
 </form>
 </p>
-<div id="linechart_material<%= i %>"></div>
+<div id="linechart_material"></div>
 <%}}}%>
 
 
@@ -71,9 +72,10 @@ for(var i = 0 ; i < data.length ; i++) {
 
 
     function drawCharts() {
-        <%if(price_datas != undefined){for(var y=0;y<price_datas.length;y++){%>
+        <%if(price_datas != undefined){for(var y=0;y<price_datas.length;y++){
+        if(x == y){%>
 
-        var container = document.getElementById('linechart_material<%= y %>');
+        var container = document.getElementById('linechart_material');
         var chart1 = new google.visualization.LineChart(container);
         var data = new google.visualization.DataTable();
         data.addColumn('datetime', 'Date');
@@ -116,7 +118,7 @@ for(var i = 0 ; i < data.length ; i++) {
 
         chart1.draw(data, options);
 
-        <%}}%>
+        <%}}}%>
 
     }
 
