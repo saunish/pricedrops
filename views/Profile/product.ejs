@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+</head>
+<body>
+<h1><%= pagetitle %></h1>
+<% include common %>
+<form method="post">
+    Enter Product URL : <input type="url" name="purl" placeholder="snapdeal product URl" required><br>
+    <input type="submit" value="Submit" name="submit">
+</form>
+<p><%= msg %></p>
+
+
+
+<%
+if(data == "No data in wishlist"){
+%><p><%= data %></p>
+<%}
+else{
+for(var i = 0 ; i < data.length ; i++) {
+    if(productid == data[i].pid){
+%>
+<p><img src="<%= data[i].image%>" style="width:200px;height:200px;">
+    <b>Product Name : <%= data[i].title %></b><br>
+    Product Link : <%= data[i].link %><br>
+    Product Id : <%= data[i].pid %><br>
+    Product Price : <%= data[i].current_price %><br>
+<form method="post">
+    <input type="hidden" value="<%= data[i].provider %>" name="rpp">
+    <input type="hidden" value="<%= data[i].pid %>" name="rp">
+    <input type="submit" value="Remove" name="remove">
+</form>
+</p>
+<div id="linechart_material<%= i %>"></div>
+<%}}}%>
+
+
+
+<script type="text/javascript">
+
+
+    google.charts.load("current", {packages:['corechart','timeline']});
+    google.charts.setOnLoadCallback(drawCharts);
+
+
+    function resizeHandler () {
+        google.charts.setOnLoadCallback(drawCharts);
+    }
+    if (window.addEventListener) {
+        window.addEventListener('resize', resizeHandler, false);
+    }
+    else if (window.attachEvent) {
+        window.attachEvent('onresize', resizeHandler);
+    }
+
+
+
+    function drawCharts() {
+        <%if(price_datas != undefined){for(var y=0;y<price_datas.length;y++){%>
+
+        var container = document.getElementById('linechart_material<%= y %>');
+        var chart1 = new google.visualization.LineChart(container);
+        var data = new google.visualization.DataTable();
+        data.addColumn('datetime', 'Date');
+        data.addColumn('number', 'Price');
+
+        var temp;
+        var temp1;
+
+
+        <%for(var z=0;z<price_datas[y].length;z++){%>
+        temp = '<%= price_datas[y][z] %>';
+        temp1 = temp.toString().split(",");
+        temp1[1] = parseInt(temp1[1]);
+        data.addRow([new Date(temp1[0]),  temp1[1]]);
+        <%}%>
+
+        var options = {
+            hAxis : {
+                title : "Date & Time",
+                titleTextStyle : true,
+                italic : false
+            },
+            vAxis : {
+                title : "Price",
+                titleTextStyle : true,
+                italic : false
+            },
+            curveType: 'function',
+            animation : {
+                duration : 2000,
+                startup : true,
+                easing : "in"
+            },
+            title: 'Price History',
+            subtitle: 'In Indian Rupees (INR)',
+            pointsVisible : true,
+            titlePosition : "in"
+        };
+
+
+        chart1.draw(data, options);
+
+        <%}}%>
+
+    }
+
+
+</script>
+
+
+</body>
+</html>
