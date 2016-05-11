@@ -20,7 +20,7 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -53,12 +53,19 @@ app.get('/verify/:userID/:token', function (req, res) {
 
 app.get('/', function (req, res) {
 
-    var str = (req.query.message == undefined ? "" : req.query.message);
-    res.render('Auth/login', {
-        title: "Price Drop Alert",
-        pagetitle: "Login",
-        message: str
+    ref.child('global').once('value',function (snapshot) {
+        var data = snapshot.val();
+        var str = (req.query.message == undefined ? "" : req.query.message);
+        res.render('Auth/landing', {
+            title: "Price Drop Alert",
+            pagetitle: "Login",
+            message: str,
+            noofuser : data.no_of_user,
+            noofalert : data.no_of_alerts,
+            noofproducts : data.no_of_products
+        });
     });
+
     /*
      var authData = ref.getAuth();
      if(authData){
@@ -86,6 +93,30 @@ app.post('/', function (req, res) {
                 res.redirect('/?message=' + encodeURIComponent(error.message));
             else
                 res.redirect('/email/verification/' + authData.uid);
+        });
+    }
+
+    if (req.body.register == "Register") {
+        ref.createUser({
+            email: req.body.email,
+            password: req.body.password
+        }, function (error, userData) {
+            if (error) {
+                var str = encodeURIComponent(error.message);
+                res.redirect('/signup/?message=' + str);
+            }
+            else {
+                ref.child("users").child(userData.uid).set({
+                    provider: "password",
+                    firstname: req.body.fname,
+                    lastname: req.body.lname,
+                    dob: req.body.dob,
+                    tel: req.body.tel,
+                    email: req.body.email,
+                    status: "INACTIVE"
+                });
+                res.redirect('/?message=' + encodeURIComponent("user: " + req.body.fname + " successfully register"));
+            }
         });
     }
 
