@@ -28,7 +28,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
 //
 // starts here
 //
@@ -53,16 +52,22 @@ app.get('/verify/:userID/:token', function (req, res) {
 
 app.get('/', function (req, res) {
 
-    ref.child('global').once('value',function (snapshot) {
-        var data = snapshot.val();
+    var datas = [];
+    ref.once('value',function (snapshot) {
+        var lp = snapshot.child('global').child('list_products').val();
+        for(var i = 1; i<lp.length;i++){
+            datas.push(snapshot.child('products').child(lp[i]).val());
+        }
+        var data = snapshot.child('global').val();
         var str = (req.query.message == undefined ? "" : req.query.message);
         res.render('Auth/landing', {
             title: "Price Drop Alert",
             pagetitle: "Login",
             message: str,
-            noofuser : data.no_of_user,
-            noofalert : data.no_of_alerts,
-            noofproducts : data.no_of_products
+            noofuser: data.no_of_user,
+            noofalert: data.no_of_alerts,
+            noofproducts: data.no_of_products,
+            products : datas
         });
     });
 
@@ -264,7 +269,6 @@ app.get('/user/:userID', function (req, res) {
                 res.redirect('/email/verification/' + authData.uid);
             }
             else {
-
 
 
                 ref.child("users").child(authData.uid).once("value", function (snapshot) {
@@ -495,7 +499,7 @@ app.post('/user/:userID', function (req, res) {
                     'id': pdata.productBaseInfo.productIdentifier.productId,
                     'title': title,
                     'brand': pdata.productBaseInfo.productAttributes.productBrand,
-                    'description' : pdata.productBaseInfo.productAttributes.productDescription,
+                    'description': pdata.productBaseInfo.productAttributes.productDescription,
                     'availability': avail,
                     'link': pdata.productBaseInfo.productAttributes.productUrl,
                     'imageLink': imageurl,
@@ -568,7 +572,7 @@ app.post('/user/:userID', function (req, res) {
                         pid: data.id,
                         title: data.title,
                         brand: data.brand,
-                        description : data.description,
+                        description: data.description,
                         link: data.link,
                         image: data.imageLink,
                         initial_price: data.effectivePrice,
@@ -626,7 +630,6 @@ app.get('/user/:userID/info/:product', function (req, res) {
             else {
 
 
-
                 ref.child("users").child(authData.uid).once("value", function (snapshot) {
                     var pid;
                     if (snapshot.child("wishlist").exists()) {
@@ -671,7 +674,6 @@ app.get('/user/:userID/info/:product', function (req, res) {
                                     var j;
                                     var temp;
                                     var temp_date = [];
-
 
 
                                     for (var m = 0; m < glob.pdata.length; m++) {
@@ -750,22 +752,22 @@ app.get('/user/:userID/info/:product', function (req, res) {
                                         }
                                     }
 
-                                    
-                                        if (req.params.userID == authData.uid) {
-                                            res.render('Profile/product', {
-                                                title: "Price Drop Alert",
-                                                pagetitle: "Home",
-                                                uid: authData.uid,
-                                                msg: message,
-                                                data: glob.pdata,
-                                                pdatas: datas,
-                                                price_datas: price_data,
-                                                productid : req.params.product
-                                            });
-                                        }
-                                        else
-                                            res.sendStatus(404);
-                                    
+
+                                    if (req.params.userID == authData.uid) {
+                                        res.render('Profile/product', {
+                                            title: "Price Drop Alert",
+                                            pagetitle: "Home",
+                                            uid: authData.uid,
+                                            msg: message,
+                                            data: glob.pdata,
+                                            pdatas: datas,
+                                            price_datas: price_data,
+                                            productid: req.params.product
+                                        });
+                                    }
+                                    else
+                                        res.sendStatus(404);
+
                                 }
                             });
                         }
@@ -831,24 +833,24 @@ app.get('/user/:userID/profile/edit', function (req, res) {
                 res.redirect('/email/verification/' + authData.uid);
 
 
-                if (req.params.userID == authData.uid) {
-                    ref.child("users").child(authData.uid).once("value", function (snapshot) {
-                        var userData = snapshot.val();
-                        res.render('Profile/edit', {
-                            title: "Price Drop Alert",
-                            pagetitle: "Update Profile",
-                            firstname: userData.firstname,
-                            lastname: userData.lastname,
-                            dob: userData.dob,
-                            tel: userData.tel,
-                            email: userData.email,
-                            uid: authData.uid,
-                            message: str
-                        });
+            if (req.params.userID == authData.uid) {
+                ref.child("users").child(authData.uid).once("value", function (snapshot) {
+                    var userData = snapshot.val();
+                    res.render('Profile/edit', {
+                        title: "Price Drop Alert",
+                        pagetitle: "Update Profile",
+                        firstname: userData.firstname,
+                        lastname: userData.lastname,
+                        dob: userData.dob,
+                        tel: userData.tel,
+                        email: userData.email,
+                        uid: authData.uid,
+                        message: str
                     });
-                }
-                else
-                    res.sendStatus(404);
+                });
+            }
+            else
+                res.sendStatus(404);
 
         });
     }

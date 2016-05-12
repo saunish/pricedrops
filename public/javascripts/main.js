@@ -19,7 +19,7 @@ $(document).ready(function(event) {
 			  $("#signUp").css({"display":"none"});
 			  // $("#google").css({"display":"none"});
 			  $("#share").css({"display":"block"});
-			  $("#acc-btn").css({"width":"100px","height":"50px","margin-left":"-50px","margin-top":"-25px"});
+			  $("#acc-btn").css({"width":"150px","height":"50px","margin-left":"-50px","margin-top":"-25px"});
 	   }
 	});
 

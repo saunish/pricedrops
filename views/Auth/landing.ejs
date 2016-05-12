@@ -73,11 +73,11 @@
                             <div class="modal-body">
                                 <ul class="list-none tbl-style">
                                     <li><label>Your Login Id</label> <input type="text" name="email" id="email"
-                                                                            required></input></li>
+                                                                            required></li>
                                     <li><label>Your Password</label> <input type="password" name="password"
-                                                                            id="password" required></input></li>
+                                                                            id="password" required></li>
                                 </ul>
-                                <input type="submit" name="pass" value="Sign In" class="btn btn-success"></input>
+                                <input type="submit" name="pass" value="Sign In" class="btn btn-success">
                             </div>
                         </form>
                         <div class="modal-footer">
@@ -99,14 +99,20 @@
                         <form method="post">
                             <div class="modal-body">
                                 <ul class="list-none tbl-style">
-                                    <li><label>First name</label> <input type="text" name="fname" id="email" required></input></li>
-                                    <li><label>Last name</label> <input type="text" name="lname" id="lname" required></input></li>
-                                    <li><label>Date of birth</label> <input type="date" name="dob" id="date" required></input></li>
-                                    <li><label>Mobile Number</label> <input type="tel" name="tel" id="tel" required></input></li>
-                                    <li><label>Your Mail id </label> <input type="email" name="email" id="email" required></input></li>
-                                    <li><label>Your Password</label> <input type="password" name="password" id="password" required></input></li>
+                                    <li><label>First name</label> <input type="text" name="fname" id="email" required>
+                                    </li>
+                                    <li><label>Last name</label> <input type="text" name="lname" id="lname" required>
+                                    </li>
+                                    <li><label>Date of birth</label> <input type="date" name="dob" id="date" required>
+                                    </li>
+                                    <li><label>Mobile Number</label> <input type="tel" name="tel" id="tel" required>
+                                    </li>
+                                    <li><label>Your Mail id </label> <input type="email" name="email" id="email"
+                                                                            required></li>
+                                    <li><label>Your Password</label> <input type="password" name="password"
+                                                                            id="password" required></li>
                                 </ul>
-                                <input type="submit" name="register" value="Register" class="btn btn-success"></input>
+                                <input type="submit" name="register" value="Register" class="btn btn-success">
                             </div>
                         </form>
                         <div class="modal-footer">
@@ -123,17 +129,23 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4" style="background-color: #F90101; border-radius: 10px;">
-            <h3>No of Registered User</h3>
-            <h2><%= noofuser %></h2>
+        <div class="col-md-4 text_center">
+            <div class="notificatin-inner" style="background-color: #F90101; border-radius: 10px">
+                <h3>No of Registered User</h3>
+                <h2><%= noofuser %></h2>
+            </div>
         </div>
-        <div class="col-md-4" style="background-color: #F2B50F; border-radius: 10px;">
-            <h3>No of Alerts send</h3>
-            <h2><%= noofalert %></h2>
+        <div class="col-md-4 text_center">
+            <div class="notificatin-inner" style="background-color: #F2B50F; border-radius: 10px">
+                <h3>No of Alerts send</h3>
+                <h2><%= noofalert %></h2>
+            </div>
         </div>
-        <div class="col-md-4" style="background-color: #00933B; border-radius: 10px;">
-            <h3>No of Products Tracked</h3>
-            <h2><%= noofproducts %></h2>
+        <div class="col-md-4 text_center">
+            <div class="notificatin-inner" style="background-color: #00933B; border-radius: 10px;">
+                <h3>No of Products Tracked</h3>
+                <h2><%= noofproducts %></h2>
+            </div>
         </div>
     </div>
 
@@ -150,8 +162,9 @@
                 <li>Step 2 :
                     <h4>Enter the url of the product that you want to track into the wishlist.</h4>
                 </li>
-                <li>Step 3 :<h4>If you want to remove the product from the wishlist simply click on remove button which is present
-                    next to the product list.</h4></li>
+                <li>Step 3 :<h4>If you want to remove the product from the wishlist simply click on remove button which
+                        is present
+                        next to the product list.</h4></li>
             </ul>
         </div>
     </div>
@@ -161,32 +174,62 @@
 <div class="container">
     <!-- Example row of columns -->
 
+    <%
+    var uniqueRandoms = [];
+    var numRandoms = products.length;
+    function makeUniqueRandom() {
+        // refill the array if needed
+        if (!uniqueRandoms.length) {
+            for (var i = 0; i < numRandoms; i++) {
+                uniqueRandoms.push(i);
+            }
+        }
+        var index = Math.floor((Math.random() * uniqueRandoms.length) + 1);
+        var val = uniqueRandoms[index];
+
+        // now remove that value from the array
+        uniqueRandoms.splice(index, 1);
+
+        return val;
+
+    }
+    var ra = [];
+    for (var j = 0; j < products.length; j++) {
+        ra.push(makeUniqueRandom());
+        if (ra[j] == undefined) {
+            ra[j] = 1;
+        }
+    }
+    for(var i = 1;i < products.length;i++) {
+
+    if(i % 3 == 0){
+    %>
+
     <div class="row">
         <div class="col-md-4">
-            <h2>Heading</h2>
-            <img src="images/no-image.jpg" class="img-responsive"/>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <h2><%= products[ra[i]].title %></h2>
+            <a href="<%= products[ra[i]].link %>">
+                <img src="<%= products[ra[i]].image %>" class="img-responsive"/>
+            </a>
+            <p><%= products[ra[i]].provider %></p>
         </div>
         <div class="col-md-4">
-            <h2>Heading</h2>
-            <img src="images/no-image.jpg" class="img-responsive"/>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <h2><%= products[ra[i - 1]].title %></h2>
+            <a href="<%= products[ra[i - 1]].link %>">
+                <img src="<%= products[ra[i - 1]].image %>" class="img-responsive"/>
+            </a>
+            <%= products[ra[i - 1]].provider %>
         </div>
         <div class="col-md-4">
-            <h2>Heading</h2>
-            <img src="images/no-image.jpg" class="img-responsive"/>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <h2><%= products[ra[i - 2]].title %></h2>
+            <a href="<%= products[ra[i - 2]].link %>">
+                <img src="<%= products[ra[i - 2]].image %>" class="img-responsive"/>
+            </a>
+            <%= products[ra[i - 2]].provider %>
         </div>
     </div>
+
+    <% }} %>
 
     <hr>
 
