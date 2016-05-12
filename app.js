@@ -281,7 +281,7 @@ app.get('/user/:userID', function (req, res) {
                     }
 
                     if (pid == undefined) {
-                        res.render('Profile/home', {
+                        res.render('Profile/wishlist', {
                             title: "Price Drop Alert",
                             pagetitle: "Home",
                             uid: authData.uid,
@@ -393,7 +393,7 @@ app.get('/user/:userID', function (req, res) {
                                     }
 
                                     if (req.params.userID == authData.uid) {
-                                        res.render('Profile/home', {
+                                        res.render('Profile/wishlist', {
                                             title: "Price Drop Alert",
                                             pagetitle: "Home",
                                             uid: authData.uid,
