@@ -43,9 +43,11 @@
                     <li><a href="/user/<%= uid %>">Home</a></li>
                     <li><a href="/user/<%= uid %>/profile">Profile</a></li>
                     <li><a href="#">Products</a></li>
-                    <li><form method="post">
+                    <li>
+                        <form method="post">
                             <input type="submit" value="Log Out" name="logout">
-                        </form></li>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div><!--/.navbar-collapse -->
@@ -56,17 +58,15 @@
     <div class="container">
         <form method="post">
             <div class="action-cotainer">
-                <input class="input-lg col-lg-10" type="url" name="purl" placeholder="snapdeal product URl" required><br>
+                <input class="input-lg col-lg-10" type="url" name="purl" placeholder="snapdeal product URl"
+                       required><br>
             </div>
             <div class="action-cotainer" style="margin-top: 10%">
                 <input class="btn-primary col-md-2" type="submit" value="Submit" name="submit">
             </div>
-            </form>
-
+        </form>
     </div>
 </div>
-
-
 
 
 <div class="main-content wishlist">
@@ -75,20 +75,23 @@
 
             <%
             if(data == "No data in wishlist"){
-            %><p><%= data %></p>
-            <%}
+            %>
+            <p><%= data %></p>
+            <% }
             else{
             %>
             <h3>List Of Products in wishlist</h3>
             <%
-                for(var i = 0 ; i < data.length ; i++) {
+            for(var i = 0 ; i < data.length ; i++) {
             %>
 
             <li>
                 <div class="row">
                     <div class="col-sm-3">
                         <figure>
-                            <img src="<%= data[i].image %>" alt="" class="img-responsive">
+                            <a href="/user/<%= uid %>/info/<%= data[i].pid %>">
+                                <img src="<%= data[i].image %>" alt="" class="img-responsive">
+                            </a>
                         </figure>
                     </div>
                     <div class="col-sm-7">
@@ -96,20 +99,47 @@
                         <h3><%= data[i].brand %></h3>
                         <h3><%= data[i].provider %></h3>
                         <h4><%= data[i].current_price %></h4>
+                        <%
+                            var bools = false;
+                            for (var j = 0; j < nlist.length; j++) {
+                                if (data[i].provider + "-" + data[i].pid == nlist[j])
+                                    bools = true;
+                            }
+                        if(bools){
+                        %>
+                        <h3>Product is in notification list</h3>
+                        <%}
+                        else{
+                        %>
+                        <h3>Product is not in notification list</h3>
+                        <%
+                        }
+
+                        %>
                     </div>
                     <div class="col-sm-2 button-group">
-                        <a href="#" class="btn-primary">Notify me</a>
-                        <a href="#" class="btn-warning">Buy Now</a>
+                        <form method="post">
+                            <input type="hidden" value="<%= data[i].provider %>" name="rpps">
+                            <input type="hidden" value="<%= data[i].pid %>" name="rps">
+                            <input class="btn-primary" type="submit" value="Notify" name="notif">
+                        </form>
+
+                        <form method="post">
+                            <input type="hidden" value="<%= data[i].provider %>" name="rppss">
+                            <input type="hidden" value="<%= data[i].pid %>" name="rpss">
+                            <input class="btn-danger" type="submit" value="Remove Notification" name="rn">
+                        </form>
+
                         <form method="post">
                             <input type="hidden" value="<%= data[i].provider %>" name="rpp">
                             <input type="hidden" value="<%= data[i].pid %>" name="rp">
-                            <input class="btn-danger" type="submit" value="Remove" name="remove">
+                            <input class="btn-danger" type="submit" value="Remove Product" name="remove">
                         </form>
                     </div>
                 </div>
             </li>
 
-            <%}}%>
+            <% }} %>
         </ul>
     </div>
 </div>

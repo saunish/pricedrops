@@ -53,9 +53,9 @@ app.get('/verify/:userID/:token', function (req, res) {
 app.get('/', function (req, res) {
 
     var datas = [];
-    ref.once('value',function (snapshot) {
+    ref.once('value', function (snapshot) {
         var lp = snapshot.child('global').child('list_products').val();
-        for(var i = 1; i<lp.length;i++){
+        for (var i = 1; i < lp.length; i++) {
             datas.push(snapshot.child('products').child(lp[i]).val());
         }
         var data = snapshot.child('global').val();
@@ -67,7 +67,7 @@ app.get('/', function (req, res) {
             noofuser: data.no_of_user,
             noofalert: data.no_of_alerts,
             noofproducts: data.no_of_products,
-            products : datas
+            products: datas
         });
     });
 
@@ -272,6 +272,12 @@ app.get('/user/:userID', function (req, res) {
 
 
                 ref.child("users").child(authData.uid).once("value", function (snapshot) {
+                    if(snapshot.child('notiflist').exists()){
+                        glob.udata = snapshot.child('notiflist').val().toString().split(',');
+                    }
+                    else {
+                        glob.udata = "No Data in Notification List";
+                    }
                     var pid;
                     if (snapshot.child("wishlist").exists()) {
                         pid = snapshot.child("wishlist").val().toString().split(",");
@@ -288,7 +294,8 @@ app.get('/user/:userID', function (req, res) {
                             msg: message,
                             data: "No data in wishlist",
                             pdatas: undefined,
-                            price_datas: undefined
+                            price_datas: undefined,
+                            nlist : "No data for notification"
                         });
                     }
 
@@ -400,7 +407,8 @@ app.get('/user/:userID', function (req, res) {
                                             msg: message,
                                             data: glob.pdata,
                                             pdatas: datas,
-                                            price_datas: price_data
+                                            price_datas: price_data,
+                                            nlist : glob.udata
                                         });
                                     }
                                     else
@@ -427,7 +435,6 @@ app.post('/user/:userID', function (req, res) {
         ref.unauth();
         res.redirect('/?message=' + encodeURIComponent("successfully logged out"));
     }
-
 
     if (req.body.submit == "Submit") {
 
@@ -588,7 +595,7 @@ app.post('/user/:userID', function (req, res) {
 
     }
 
-    if (req.body.remove == "Remove") {
+    if (req.body.remove == "Remove Product") {
         ref.child("users").child(authData.uid).child("wishlist").once("value", function (snapshot) {
             var str = snapshot.val().toString().split(",");
             for (var j = 0; j < str.length; j++) {
@@ -609,7 +616,77 @@ app.post('/user/:userID', function (req, res) {
             ref.child("users").child(authData.uid).child("wishlist").set(
                 str
             );
+        });
+        ref.child("users").child(authData.uid).child("notiflist").once("value", function (snapshot) {
+            var str = snapshot.val().toString().split(",");
+            for (var j = 0; j < str.length; j++) {
+                if (str[j] == (req.body.rpp + "-" + req.body.rp) && j == str.length - 1) {
+                    str.pop();
+                    break;
+                } else if (str[j] == (req.body.rpp + "-" + req.body.rp)) {
+                    str[j] = "";
+                }
+                if (str[j] == "" && j == str.length - 1) {
+                    str.pop();
+                    break;
+                } else if (str[j] == "") {
+                    str[j] = str[j + 1];
+                    str[j + 1] = "";
+                }
+            }
+            ref.child("users").child(authData.uid).child("notiflist").set(
+                str
+            );
             res.redirect('/user/' + authData.uid + '/?message=' + encodeURIComponent("product Successfully removed"));
+        });
+    }
+
+    if (req.body.notif == "Notify") {
+        ref.child("users").child(authData.uid).once("value", function (snapshot) {
+            if (snapshot.child('notiflist').exists()) {
+                var str = snapshot.child("notiflist").val().toString().split(",");
+
+                var bools = true;
+
+                for(var i =0;i<str.length;i++){
+                    if(str[i]==req.body.rpps + "-" + req.body.rps) bools = false;
+                }
+
+                if(bools) str.push(req.body.rpps + "-" + req.body.rps);
+
+                ref.child("users").child(authData.uid).child("notiflist").set(
+                    str
+                );
+            }
+            else{
+                ref.child("users").child(authData.uid).child("notiflist").set([req.body.rpps + "-" + req.body.rps]);
+            }
+            res.redirect('/user/' + authData.uid + '/?message=' + encodeURIComponent("product Successfully removed from notification list"));
+        });
+    }
+
+    if(req.body.rn == "Remove Notification"){
+        ref.child("users").child(authData.uid).child("notiflist").once("value", function (snapshot) {
+            var str = snapshot.val().toString().split(",");
+            for (var j = 0; j < str.length; j++) {
+                if (str[j] == (req.body.rppss + "-" + req.body.rpss) && j == str.length - 1) {
+                    str.pop();
+                    break;
+                } else if (str[j] == (req.body.rppss + "-" + req.body.rpss)) {
+                    str[j] = "";
+                }
+                if (str[j] == "" && j == str.length - 1) {
+                    str.pop();
+                    break;
+                } else if (str[j] == "") {
+                    str[j] = str[j + 1];
+                    str[j + 1] = "";
+                }
+            }
+            ref.child("users").child(authData.uid).child("notiflist").set(
+                str
+            );
+            res.redirect('/user/' + authData.uid + '/?message=' + encodeURIComponent("product Successfully removed from notification list"));
         });
     }
 });
