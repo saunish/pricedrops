@@ -62,7 +62,7 @@
                        required><br>
             </div>
             <div class="action-cotainer" style="margin-top: 10%">
-                <input class="btn-primary col-md-2" type="submit" value="Submit" name="submit">
+                <button class="btn-primary col-md-2 custom-button" type="submit" name="submit">Submit</button>
             </div>
         </form>
     </div>
@@ -71,7 +71,7 @@
 
 <div class="main-content wishlist">
     <div class="container">
-        <ul class="list-none">
+        <ul class="list-none equal-heights">
 
             <%
             if(data == "No data in wishlist"){
@@ -86,19 +86,19 @@
             %>
 
             <li>
-                <div class="row">
-                    <div class="col-sm-3">
+                <div class="row ">
+                    <div class="col-sm-4">
                         <figure>
-                            <a href="/user/<%= uid %>/info/<%= data[i].pid %>">
+
                                 <img src="<%= data[i].image %>" alt="" class="img-responsive">
-                            </a>
+
                         </figure>
                     </div>
-                    <div class="col-sm-7">
-                        <h3><%= data[i].title %></h3>
-                        <h3><%= data[i].brand %></h3>
-                        <h3><%= data[i].provider %></h3>
-                        <h4><%= data[i].current_price %></h4>
+                    <div class="col-sm-6">
+                        <h3><a href="/user/<%= uid %>/info/<%= data[i].pid %>"><%= data[i].title %></a></h3>
+                        <h4>Brand: <%= data[i].brand %></h4>
+                        <p><b>Seller: </b><%= data[i].provider %></p>
+                        <p><b>Cost: </b>INR  <%= data[i].current_price %>  /-</p>
                         <%
                             var bools = false;
                             for (var j = 0; j < nlist.length; j++) {
@@ -107,11 +107,11 @@
                             }
                         if(bools){
                         %>
-                        <h3>Product is in notification list</h3>
+                        <h5>Product is in notification list</h5>
                         <%}
                         else{
                         %>
-                        <h3>Product is not in notification list</h3>
+                        <h5>Product is not in notification list</h5>
                         <%
                         }
 
@@ -121,19 +121,19 @@
                         <form method="post">
                             <input type="hidden" value="<%= data[i].provider %>" name="rpps">
                             <input type="hidden" value="<%= data[i].pid %>" name="rps">
-                            <input class="btn-primary" type="submit" value="Notify" name="notif">
+                            <button class="btn-primary custom-button" type="submit" name="notif">Notify</button>
                         </form>
 
                         <form method="post">
                             <input type="hidden" value="<%= data[i].provider %>" name="rppss">
                             <input type="hidden" value="<%= data[i].pid %>" name="rpss">
-                            <input class="btn-danger" type="submit" value="Remove Notification" name="rn">
+                            <button class="btn-warning custom-button" type="submit" name="rn">Remove Notification</button>
                         </form>
 
                         <form method="post">
                             <input type="hidden" value="<%= data[i].provider %>" name="rpp">
                             <input type="hidden" value="<%= data[i].pid %>" name="rp">
-                            <input class="btn-danger" type="submit" value="Remove Product" name="remove">
+                            <button class="btn-danger custom-button" type="submit" name="remove">Remove Product</button>
                         </form>
                     </div>
                 </div>

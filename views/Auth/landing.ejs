@@ -41,9 +41,8 @@
             <div class="navbar-right">
                 <ul class="list-none-inline">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Contacts</a></li>
+                    <li><a href="#howto">How To</a></li>
+                    <li><a href="#wishlist">Products</a></li>
                 </ul>
             </div>
         </div><!--/.navbar-collapse -->
@@ -53,6 +52,31 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron" style="background-color: #3F51B5">
     <div class="container">
+        <div class="action-cotainer">
+            <div class="container">
+                <div class="row equal-heights">
+                    <div class="col-md-4 text_center">
+                        <div class="notificatin-inner" style="color: #ffffff;">
+                            <h3>No of Registered User</h3>
+                            <h2><%= noofuser %></h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text_center">
+                        <div class="notificatin-inner" style="color: #ffffff;">
+                            <h3>No of Alerts send</h3>
+                            <h2><%= noofalert %></h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text_center" >
+                        <div class="notificatin-inner" style="color: #ffffff;">
+                            <h3>No of Products Tracked</h3>
+                            <h2><%= noofproducts %></h2>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div class="action-cotainer" style="top:100%">
             <div id="acc-btn">
                 <a href="#" id="share">Sign In / Sign Up</a>
@@ -127,31 +151,8 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 text_center">
-            <div class="notificatin-inner" style="background-color: #F90101; border-radius: 10px">
-                <h3>No of Registered User</h3>
-                <h2><%= noofuser %></h2>
-            </div>
-        </div>
-        <div class="col-md-4 text_center">
-            <div class="notificatin-inner" style="background-color: #F2B50F; border-radius: 10px">
-                <h3>No of Alerts send</h3>
-                <h2><%= noofalert %></h2>
-            </div>
-        </div>
-        <div class="col-md-4 text_center">
-            <div class="notificatin-inner" style="background-color: #00933B; border-radius: 10px;">
-                <h3>No of Products Tracked</h3>
-                <h2><%= noofproducts %></h2>
-            </div>
-        </div>
-    </div>
 
-</div>
-
-<div class="container">
+<div id="howto" class="container">
     <div class="row">
         <div class="col-xs-12">
             <h3>How to </h3>
@@ -171,7 +172,9 @@
 </div>
 
 
-<div class="container">
+<div id="wishlist" class="container">
+
+    <div clss="title">    <h3>Products our users track</h3></div>
     <!-- Example row of columns -->
 
     <%
@@ -205,7 +208,7 @@
     if(i % 3 == 0){
     %>
 
-    <div class="row">
+    <div class="row product-list equal-heights">
         <div class="col-md-4">
             <h2><%= products[ra[i]].title %></h2>
             <a href="<%= products[ra[i]].link %>">
@@ -242,6 +245,7 @@
 
 <script src="javascripts/vendor/bootstrap.min.js"></script>
 
+<script src="javascripts/plugin.js"></script>
 <script src="javascripts/main.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
