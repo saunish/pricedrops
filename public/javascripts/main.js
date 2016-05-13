@@ -64,3 +64,46 @@ $(document).ready(function(event) {
 	});
 
 });
+
+
+/*** EQUAL HEIGHTS ***/
+	var $window = $(window);
+
+//
+
+		equalheight = function(container){
+		var currentTallest = 0,
+				currentRowStart = 0,
+				rowDivs = new Array(),
+				$elm,
+				topPosition = 0;
+		$(container).each(function() {
+
+					$elm = $(this);
+				$($elm).height('auto')
+				topPostion = $elm.position().top;
+
+					if (currentRowStart != topPostion) {
+						for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
+								rowDivs[currentDiv].height(currentTallest);
+							}
+						rowDivs.length = 0; // empty the array
+						currentRowStart = topPostion;
+						currentTallest = $elm.height();
+						rowDivs.push($elm);
+					} else {
+						rowDivs.push($elm);
+						currentTallest = (currentTallest < $elm.height()) ? ($elm.height()) : (currentTallest);
+					}
+				for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
+						rowDivs[currentDiv].height(currentTallest);
+					}
+			});
+	}
+
+	$(window).load(function() {
+			equalheight('.equal-heights > div');
+		});
+(window).resize(function(){
+		equalheight('.equal-heights > div');
+	});
