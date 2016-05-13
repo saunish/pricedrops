@@ -1,0 +1,195 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+
+        <script src="/javascripts/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
+    <body >
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Price Drop Alert</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <div class="navbar-right">
+	            <ul class="list-none-inline">
+	          	<li><a href="/user/<%= uid %>">Home</a></li>
+	          	<li><a href="/user/<%= uid %>/profile">Profile</a></li>
+                    <li>
+                        <form method="post">
+                            <input type="submit" value="Log Out" name="logout">
+                        </form>
+                    </li>
+	          </ul>
+          </div>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+
+
+        <%
+        if(data == "No data in wishlist"){
+        %><p><%= data %></p>
+        <%}
+        else{
+            for(var i = 0 ; i < data.length ; i++) {
+                if(productid == data[i].pid){
+                    var x = i;
+        %>
+
+    <div class="main-content product-desc">
+    	    <div class="container">
+    	    <div class="row equal-heights">
+    	    	<div class="col-sm-6">
+    	    		<figure class="product-image">
+    	    			<img src="<%= data[i].image %>" class="img-responsive" alt="" />
+    	    		</figure>
+    	    	</div>
+    	    	<div class="col-sm-6">
+    	    		<h3><%= data[i].title %></h3>
+    	    		<ul class="list-none product-desc-list">
+    	    			<li><span>Price </span> <%= data[i].current_price %>/- </li>
+    	    			<li><span>Brand </span> <%= data[i].brand %> </li>
+    	    			<li><span>Description </span> <%= data[i].description %> </li>
+    	    			<li><span>State </span> <%= data[i].current_state %> </li>
+                        <li><span>Seller </span>
+                            <%if(data[i].provider == "flipkart") {%>
+                            <img src="/images/Flipkart_logo.png">
+                            <%} else if(data[i].provider == "snapdeal"){%>
+                            <img src="/images/Snapdeal.png">
+                            <%}
+                            %>
+                        </li>
+                        <li><span><button class="btn-success custom-button" onclick="location.href='<%= data[i].link %>'"> Buy Now </button></span></li>
+    	    		</ul>
+    	    	</div>
+    	    </div>
+
+    	    <div class="row">
+    	    	<div class="col-xs-12">
+    	    		<figure>
+                        <div class="charts" id="linechart_material"></div>
+    	    		</figure>
+    	    	</div>
+    	    </div>
+    	    	
+    	    </div>
+    </div>
+
+
+        <%}}}%>
+
+
+        <script type="text/javascript">
+
+
+            google.charts.load("current", {packages:['corechart','timeline']});
+            google.charts.setOnLoadCallback(drawCharts);
+
+
+            function resizeHandler () {
+                google.charts.setOnLoadCallback(drawCharts);
+            }
+            if (window.addEventListener) {
+                window.addEventListener('resize', resizeHandler, false);
+            }
+            else if (window.attachEvent) {
+                window.attachEvent('onresize', resizeHandler);
+            }
+
+
+
+            function drawCharts() {
+                <%if(price_datas != undefined){for(var y=0;y<price_datas.length;y++){
+                if(x == y){%>
+
+                var container = document.getElementById('linechart_material');
+                var chart1 = new google.visualization.LineChart(container);
+                var data = new google.visualization.DataTable();
+                data.addColumn('datetime', 'Date');
+                data.addColumn('number', 'Price');
+
+                var temp;
+                var temp1;
+
+
+                <%for(var z=0;z<price_datas[y].length;z++){%>
+                temp = '<%= price_datas[y][z] %>';
+                temp1 = temp.toString().split(",");
+                temp1[1] = parseInt(temp1[1]);
+                data.addRow([new Date(temp1[0]),  temp1[1]]);
+                <%}%>
+
+                var options = {
+                    hAxis : {
+                        title : "Date & Time",
+                        titleTextStyle : true,
+                        italic : false
+                    },
+                    vAxis : {
+                        title : "Price",
+                        titleTextStyle : true,
+                        italic : false
+                    },
+                    curveType: 'function',
+                    animation : {
+                        duration : 2000,
+                        startup : true,
+                        easing : "in"
+                    },
+                    title: 'Price History',
+                    subtitle: 'In Indian Rupees (INR)',
+                    pointsVisible : true,
+                    titlePosition : "in"
+                };
+
+
+                chart1.draw(data, options);
+
+                <%}}}%>
+
+            }
+
+
+        </script>
+
+
+
+        <hr>
+
+      <footer>
+        <p>&copy; Company 2016</p>
+      </footer>
+    </div> <!-- /container -->        <script src="/javascripts/vendor/jquery-1.11.2.min.js"></script>
+
+        <script src="/javascripts/vendor/bootstrap.min.js"></script>
+
+        <script src="/javascripts/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        
+    </body>
+</html>

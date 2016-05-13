@@ -15,10 +15,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="../../public/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
 
-    <script src="javascripts/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="/javascripts/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -214,21 +214,36 @@
             <a href="<%= products[ra[i]].link %>">
                 <img src="<%= products[ra[i]].image %>" class="img-responsive"/>
             </a>
-            <p><%= products[ra[i]].provider %></p>
+            <%if(products[ra[i]].provider == "flipkart") {%>
+            <img src="/images/Flipkart_logo.png"  style=" height:15%; padding-left: 20%;">
+            <%} else if(products[ra[i]].provider == "snapdeal"){%>
+            <img src="/images/Snapdeal.png"  style="height: 10%; padding-left: 25%;">
+            <%}
+            %>
         </div>
         <div class="col-md-4">
             <h2><%= products[ra[i - 1]].title %></h2>
             <a href="<%= products[ra[i - 1]].link %>">
                 <img src="<%= products[ra[i - 1]].image %>" class="img-responsive"/>
             </a>
-            <%= products[ra[i - 1]].provider %>
+            <%if(products[ra[i - 1]].provider == "flipkart") {%>
+                <img src="/images/Flipkart_logo.png"  style=" height:15%; padding-left: 20%;">
+            <%} else if(products[ra[i-1]].provider == "snapdeal"){%>
+                <img src="/images/Snapdeal.png"  style="height: 10%; padding-left: 25%;">
+            <%}
+            %>
         </div>
         <div class="col-md-4">
             <h2><%= products[ra[i - 2]].title %></h2>
             <a href="<%= products[ra[i - 2]].link %>">
                 <img src="<%= products[ra[i - 2]].image %>" class="img-responsive"/>
             </a>
-            <%= products[ra[i - 2]].provider %>
+            <%if(products[ra[i - 2]].provider == "flipkart") {%>
+            <img src="/images/Flipkart_logo.png"  style=" height:15%; padding-left: 20%;">
+            <%} else if(products[ra[i-2]].provider == "snapdeal"){%>
+            <img src="/images/Snapdeal.png"  style="height: 10%; padding-left: 25%;">
+            <%}
+            %>
         </div>
     </div>
 
@@ -243,10 +258,10 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
-<script src="javascripts/vendor/bootstrap.min.js"></script>
+<script src="/javascripts/vendor/bootstrap.min.js"></script>
 
-<script src="javascripts/plugin.js"></script>
-<script src="javascripts/main.js"></script>
+<script src="/javascripts/plugin.js"></script>
+<script src="/javascripts/main.js"></script>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>

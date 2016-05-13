@@ -35,14 +35,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="#">Price Drop Alert</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <div class="navbar-right">
                 <ul class="list-none-inline">
                     <li><a href="/user/<%= uid %>">Home</a></li>
                     <li><a href="/user/<%= uid %>/profile">Profile</a></li>
-                    <li><a href="#">Products</a></li>
                     <li>
                         <form method="post">
                             <input type="submit" value="Log Out" name="logout">
@@ -97,7 +96,6 @@
                     <div class="col-sm-6">
                         <h3><a href="/user/<%= uid %>/info/<%= data[i].pid %>"><%= data[i].title %></a></h3>
                         <h4>Brand: <%= data[i].brand %></h4>
-                        <p><b>Seller: </b><%= data[i].provider %></p>
                         <p><b>Cost: </b>INR  <%= data[i].current_price %>  /-</p>
                         <%
                             var bools = false;
@@ -114,8 +112,18 @@
                         <h5>Product is not in notification list</h5>
                         <%
                         }
-
                         %>
+
+                        <p><b>Seller: </b>
+                        <%if(data[i].provider == "flipkart") {%>
+                        <img src="/images/Flipkart_logo.png"  style=" height:15%;">
+                        <%} else if(data[i].provider == "snapdeal"){%>
+                        <img src="/images/Snapdeal.png"  style="height: 10%;">
+                        <%}
+                        %>
+                        </p>
+
+
                     </div>
                     <div class="col-sm-2 button-group">
                         <form method="post">

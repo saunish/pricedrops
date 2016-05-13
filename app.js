@@ -130,6 +130,8 @@ app.post('/', function (req, res) {
 app.get('/email/verification/:userID', function (req, res) {
     var authData = ref.getAuth();
     if (authData) {
+
+
         var str = (req.query.message == null ? "" : req.query.message);
         if (req.params.userID == authData.uid) {
             ref.child('users').child(authData.uid).once('value', function (snapshot) {
@@ -137,7 +139,7 @@ app.get('/email/verification/:userID', function (req, res) {
                     res.redirect('/user/' + authData.uid);
                 }
                 else {
-                    res.render('Auth/verify', {
+                    res.render('Auth/verification', {
                         title: "Price Drop Alert",
                         pagetitle: "verify Email",
                         email: snapshot.child('email').val(),
@@ -207,6 +209,11 @@ app.post('/email/verification/:userID', function (req, res) {
                 });
             });
         });
+    }
+
+    if (req.body.logout == "Log Out") {
+        ref.unauth();
+        res.redirect('/?message=' + encodeURIComponent("successfully logged out"));
     }
 });
 
@@ -717,7 +724,7 @@ app.get('/user/:userID/info/:product', function (req, res) {
                     }
 
                     if (pid == undefined) {
-                        res.render('Profile/product', {
+                        res.render('Profile/product-desc', {
                             title: "Price Drop Alert",
                             pagetitle: "Home",
                             uid: authData.uid,
@@ -831,7 +838,7 @@ app.get('/user/:userID/info/:product', function (req, res) {
 
 
                                     if (req.params.userID == authData.uid) {
-                                        res.render('Profile/product', {
+                                        res.render('Profile/product-desc', {
                                             title: "Price Drop Alert",
                                             pagetitle: "Home",
                                             uid: authData.uid,

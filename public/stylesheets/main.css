@@ -56,9 +56,14 @@
 
 
 
-
-
-
+.product-desc { margin-top: 70px; }
+.product-desc .product-image { max-height: 400px; width: auto; height: inherit}
+.product-desc .product-image img { height: inherit; width: auto; margin: 0 auto; }
+.product-desc .product-desc-list > li { padding-left: 150px; position: relative; padding-left: 100px; }
+.product-desc .product-desc-list > li > span { position: absolute; top: 0; left: 0; display: block; font-weight: bold; }
+/*.product-desc .product-desc-list > li > span:after { content: ":"; display: inline-block; position: absolute; right: 0; }*/
+.product-desc .product-desc-list > li + li { margin-top: 20px; }
+.product-desc .charts { margin-top: 100px; }
 
 
 
