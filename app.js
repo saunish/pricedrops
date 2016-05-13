@@ -107,7 +107,7 @@ app.post('/', function (req, res) {
         }, function (error, userData) {
             if (error) {
                 var str = encodeURIComponent(error.message);
-                res.redirect('/signup/?message=' + str);
+                res.redirect('/?message=' + str);
             }
             else {
                 ref.child("users").child(userData.uid).set({
