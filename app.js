@@ -51,7 +51,7 @@ app.get('/verify/:userID/:token', function (req, res) {
 });
 
 app.get('/', function (req, res) {
-
+    
     var datas = [];
     ref.once('value', function (snapshot) {
         var lp = snapshot.child('global').child('list_products').val();
@@ -86,7 +86,6 @@ app.get('/', function (req, res) {
      }
      */
 });
-
 
 app.post('/', function (req, res) {
     if (req.body.pass == "Sign In") {
@@ -436,6 +435,7 @@ app.get('/user/:userID', function (req, res) {
 
 
 app.post('/user/:userID', function (req, res) {
+
     var authData = ref.getAuth();
 
     if (req.body.logout == "Log Out") {
@@ -668,7 +668,7 @@ app.post('/user/:userID', function (req, res) {
             else{
                 ref.child("users").child(authData.uid).child("notiflist").set([req.body.rpps + "-" + req.body.rps]);
             }
-            res.redirect('/user/' + authData.uid + '/?message=' + encodeURIComponent("product Successfully removed from notification list"));
+            res.redirect('/user/' + authData.uid + '/?message=' + encodeURIComponent("product Successfully included notification list"));
         });
     }
 
@@ -876,7 +876,7 @@ app.get('/user/:userID/profile', function (req, res) {
 
                 ref.child("users").child(authData.uid).once("value", function (snapshot) {
                     var userData = snapshot.val();
-                    res.render('Profile/profile', {
+                    res.render('Profile/profiles', {
                         title: "Price Drop Alert",
                         pagetitle: "Profile",
                         firstname: userData.firstname,
@@ -920,7 +920,7 @@ app.get('/user/:userID/profile/edit', function (req, res) {
             if (req.params.userID == authData.uid) {
                 ref.child("users").child(authData.uid).once("value", function (snapshot) {
                     var userData = snapshot.val();
-                    res.render('Profile/edit', {
+                    res.render('Profile/edits', {
                         title: "Price Drop Alert",
                         pagetitle: "Update Profile",
                         firstname: userData.firstname,

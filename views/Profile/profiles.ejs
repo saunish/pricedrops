@@ -13,13 +13,21 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="../../public/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/main.css">
 
     <script src="/javascripts/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Pacifico">
+
+
+    <!-- remove if not required -->
+
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
 <body>
@@ -42,7 +50,8 @@
         <div id="navbar" class="navbar-collapse collapse">
             <div class="navbar-right">
                 <ul class="list-none-inline">
-                    <
+                    <li><a href="/user/<%= uid %>">Home</a></li>
+                    <li><a href="/user/<%= uid %>/profile">Profile</a></li>
                     <li>
                         <form method="post">
                             <input type="submit" value="Log Out" name="logout">
@@ -54,83 +63,23 @@
     </div>
 </nav>
 
+
 <div class="jumbotron">
-    <div class="container" style="margin: 10%">
-        <p>Verify your email address to proceed further</p>
-        <form method='post'>
-
-            <div class="form-group">
-                <label>Email Verification required. Click on Email Verification Button</label>
-            </div>
-
-            <div class="form-group">
-                <label>If verification email not received check the email you entered</label>
-            </div>
-
-            <div class="form-group">
-                <label>email : <%= email %></label>
-            </div>
-
-            <div class="form-group">
-                <input type='submit' class="btn-warning custom-button" name='verify' value='Email Verification'>
-                <input type='button' class="btn-primary custom-button" name='email' value='Change Email'
-                       onclick="ver()">
-            </div>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <input type="hidden" class="input-lg" name="email" id="em" required>
-                    <input type="hidden" class="input-lg" name="password" id="pdw" required>
-                    <input type="hidden" class="btn-success custom-button" name="submit" id="sub">
-                </div>
-            </div>
-
-        </form>
+    <div class="profiles">
+        <div class="container" style="margin: 10%">
+            <ul class="profiles_list">
+                <li><span>First Name: </span> <%= firstname %></li>
+                <li><span>Last Name: </span> <%= lastname %></li>
+                <li><span>Date of Birth: </span> <%= dob %> </li>
+                <li><span>Mobile No: </span> <%= tel %> </li>
+                <li><span>Email Id: </span> <%= email %> </li>
+            </ul>
+            <form method="post">
+                <p><input class="btn-success custom-button" type="submit" name="update" value="Update" style="background-color: #FFA000"></p>
+            </form>
+        </div>
     </div>
 </div>
-
-<script>
-    function ver() {
-        var email = document.getElementById('em');
-        var password = document.getElementById('pdw');
-        var submit = document.getElementById('sub');
-        email.setAttribute('type', 'email');
-        email.setAttribute('placeholder', 'abc@gmail.com');
-
-
-        password.setAttribute('type', 'password');
-        password.setAttribute('placeholder', 'Password');
-
-        submit.setAttribute('type', 'submit');
-        submit.setAttribute('value', 'Change Email');
-    }
-</script>
-
-
-<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
-</div>
-
-
-
-<script>
-    (function() {
-        'use strict';
-        window['counter'] = 0;
-        var snackbarContainer = document.querySelector('#demo-toast-example');
-        window.onload=function() {
-            'use strict';
-            if('<%= msg %>' == ""){
-                var data = {message: 'Welcome'};
-            }
-            else{
-                var data = {message : '<%= msg %>'};
-            }
-            snackbarContainer.MaterialSnackbar.showSnackbar(data);
-        }
-    }());
-</script>
 
 
 <hr>
@@ -139,6 +88,8 @@
     <p>Made By Anshul & Saunish</p>
 </footer>
 </div> <!-- /container -->
+
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
@@ -146,7 +97,6 @@
 
 <script src="/javascripts/plugin.js"></script>
 <script src="/javascripts/main.js"></script>
-
 
 </body>
 </html>

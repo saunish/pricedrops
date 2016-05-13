@@ -16,6 +16,7 @@
 
         <script src="/javascripts/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Pacifico">
     </head>
     <body >
         <!--[if lt IE 8]>
@@ -30,7 +31,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Price Drop Alert</a>
+          <a class="navbar-brand font_style" style="color: white" href="#">Price Drop Alert</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <div class="navbar-right">
@@ -73,7 +74,9 @@
     	    		<ul class="list-none product-desc-list">
     	    			<li><span>Price </span> <%= data[i].current_price %>/- </li>
     	    			<li><span>Brand </span> <%= data[i].brand %> </li>
+                        <% if(data[i].description != ""){%>
     	    			<li><span>Description </span> <%= data[i].description %> </li>
+                        <%}%>
     	    			<li><span>State </span> <%= data[i].current_state %> </li>
                         <li><span>Seller </span>
                             <%if(data[i].provider == "flipkart") {%>
@@ -177,11 +180,19 @@
         </script>
 
 
+        <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
+        </div>
+
+
+
+
 
         <hr>
 
       <footer>
-        <p>&copy; Company 2016</p>
+        <p>Made By Anshul & Saunish</p>
       </footer>
     </div> <!-- /container -->        <script src="/javascripts/vendor/jquery-1.11.2.min.js"></script>
 
@@ -189,7 +200,6 @@
 
         <script src="/javascripts/main.js"></script>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         
     </body>
 </html>

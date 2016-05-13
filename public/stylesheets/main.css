@@ -67,4 +67,10 @@
 
 
 
+.font_style { font-family: Pacifico, serif; color:white; font-size: x-large}
 
+
+.profiles .profiles_list > li { padding-left: 150px; position: relative; padding-left: 100px; }
+.profiles .profiles_list > li > span { position: absolute; top: 0; left: 0; display: block; font-weight: bold; }
+/*.product-desc .product-desc-list > li > span:after { content: ":"; display: inline-block; position: absolute; right: 0; }*/
+.profiles .profiles_list > li + li { margin-top: 20px; }

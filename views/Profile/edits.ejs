@@ -1,0 +1,242 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+
+    <script src="/javascripts/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Pacifico">
+
+
+    <!-- remove if not required -->
+
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand font_style" style="color: white" href="#">Price Drop Alert</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <div class="navbar-right">
+                <ul class="list-none-inline">
+                    <li><a href="/user/<%= uid %>">Home</a></li>
+                    <li><a href="/user/<%= uid %>/profile">Profile</a></li>
+                    <li>
+                        <form method="post">
+                            <input type="submit" value="Log Out" name="logout">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+
+<div class="jumbotron">
+    <div class="container" style="margin: 10%">
+        <form id="form" method="post">
+            <div class="form-group">
+                <label>First Name:<%= firstname %></label>
+                <div class="input-group">
+                    <input class="btn-primary" type="button" value="Edit" onclick="fname()">
+                    <input id="fedit" class="input-lg" type="hidden">
+                    <input type="hidden" class="btn-success" id="fsubmit">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Last Name:<%= lastname %></label>
+                <div class="input-group">
+                    <input class="btn-primary" type="button" value="Edit" onclick="lname()">
+                    <input class="input-lg" id="ledit" type="hidden">
+                    <input class="btn-success" type="hidden" id="lsubmit">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>Date of Birth : <%= dob %></label>
+                <div class="input-group">
+                    <input class="btn-primary" type="button" value="Edit" onclick="dob()">
+                    <input class="input-lg" id="dobedit" type="hidden">
+                    <input class="btn-success" type="hidden" id="dobsubmit" >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Mobile no : <%= tel %></label>
+                <div class="input-group">
+                    <input class="btn-primary" type="button" value="Edit" onclick="tel()">
+                    <input class="input-lg" id="teledit" type="hidden">
+                    <input class="btn-success" type="hidden" id="telsubmit" >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email Id : <%= email %></label>
+            </div>
+
+            <div class="form-group">
+                <label>Password :</label>
+                <div class="input-group">
+                    <input class="btn-warning" type="button" value="Password" onclick="passwd()">
+                    <input class="input-lg" id="oldpasswd" type="hidden" >
+                    <input class="input-lg" id="newpasswd" type="hidden" >
+                    <input class="btn-success" type="hidden" id="passwdsubmit">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function fname(){
+        var input = document.getElementById("fedit");
+        input.setAttribute("type", "text");
+        input.setAttribute("placeholder", "Enter Name");
+        input.setAttribute("name", "fname");
+        var submit = document.getElementById("fsubmit");
+        submit.setAttribute("type", "submit");
+        submit.setAttribute("value", "Submit");
+        submit.setAttribute("name", "fsubmit");
+    }
+
+    function lname(){
+        var input = document.getElementById("ledit");
+        input.setAttribute("type", "text");
+        input.setAttribute("placeholder", "Name");
+        input.setAttribute("name", "lname");
+        var submit = document.getElementById("lsubmit");
+        submit.setAttribute("type", "submit");
+        submit.setAttribute("value", "Submit");
+        submit.setAttribute("name", "lsubmit");
+    }
+
+    function dob(){
+        var input = document.getElementById("dobedit");
+        input.setAttribute("type", "date");
+        input.setAttribute("name", "dob");
+        var submit = document.getElementById("dobsubmit");
+        submit.setAttribute("type", "submit");
+        submit.setAttribute("value", "Submit");
+        submit.setAttribute("name", "dobsubmit");
+    }
+
+    function tel(){
+        var input = document.getElementById("teledit");
+        input.setAttribute("type", "tel");
+        input.setAttribute("placeholder", "9876543210");
+        input.setAttribute("name", "tel");
+        var submit = document.getElementById("telsubmit");
+        submit.setAttribute("type", "submit");
+        submit.setAttribute("value", "Submit");
+        submit.setAttribute("name", "telsubmit");
+    }
+
+    function passwd(){
+
+        var form = document.getElementById("form");
+
+        console.log('<%= email %>');
+
+        var email = document.createElement("input");
+        email.setAttribute("type", "hidden");
+        email.setAttribute("value", "<%= email %>");
+        email.setAttribute("name", "emailid");
+        console.log(email);
+        form.appendChild(email);
+
+        var input = document.getElementById("oldpasswd");
+        input.setAttribute("type", "password");
+        input.setAttribute("placeholder", "Old-Password");
+        input.setAttribute("name", "oldpasswd");
+
+        var newpd = document.getElementById("newpasswd");
+        newpd.setAttribute("type", "password");
+        newpd.setAttribute("placeholder","New-Password");
+        newpd.setAttribute("name","newpasswd");
+
+        var submit = document.getElementById("passwdsubmit");
+        submit.setAttribute("type", "submit");
+        submit.setAttribute("value", "Submit");
+        submit.setAttribute("name", "passwdsubmit");
+    }
+</script>
+
+<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+
+
+<script>
+    (function () {
+        'use strict';
+        window['counter'] = 0;
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        window.onload = function () {
+            'use strict';
+            if ('<%= message %>' == "") {
+                var data = {message: 'Welcome'};
+            }
+            else {
+                var data = {message: '<%= message %>'};
+            }
+            snackbarContainer.MaterialSnackbar.showSnackbar(data);
+        }
+    }());
+</script>
+
+
+<hr>
+
+<footer>
+    <p>Made By Anshul & Saunish</p>
+</footer>
+</div> <!-- /container -->
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+
+<script src="/javascripts/vendor/bootstrap.min.js"></script>
+
+<script src="/javascripts/plugin.js"></script>
+<script src="/javascripts/main.js"></script>
+
+</body>
+</html>
