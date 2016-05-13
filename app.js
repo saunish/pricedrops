@@ -24,13 +24,8 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-//app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-//
-// starts here
-//
 
 app.get('/verify/:userID/:token', function (req, res) {
     ref.authWithCustomToken(req.params.token, function (error, authData) {
@@ -70,21 +65,6 @@ app.get('/', function (req, res) {
             products: datas
         });
     });
-
-    /*
-     var authData = ref.getAuth();
-     if(authData){
-     res.redirect('/user/'+authData.uid);
-     }
-     else{
-     var str = (req.query.message == undefined ? "" : req.query.message);
-     res.render('Auth/login', {
-     title : "Price Drop Alert",
-     pagetitle : "Login",
-     message : str
-     });
-     }
-     */
 });
 
 app.post('/', function (req, res) {
@@ -215,52 +195,6 @@ app.post('/email/verification/:userID', function (req, res) {
         res.redirect('/?message=' + encodeURIComponent("successfully logged out"));
     }
 });
-
-app.get('/signup', function (req, res) {
-    var str = (req.query.message == undefined ? "" : req.query.message);
-    res.render('Auth/signup', {
-        title: "Price Drop Alert",
-        pagetitle: "Register",
-        message: str
-    });
-});
-
-
-app.post('/signup', function (req, res) {
-    if (req.body.register == "Register") {
-        ref.createUser({
-            email: req.body.email,
-            password: req.body.password
-        }, function (error, userData) {
-            if (error) {
-                var str = encodeURIComponent(error.message);
-                res.redirect('/signup/?message=' + str);
-            }
-            else {
-                ref.child("users").child(userData.uid).set({
-                    provider: "password",
-                    firstname: req.body.fname,
-                    lastname: req.body.lname,
-                    dob: req.body.dob,
-                    tel: req.body.tel,
-                    email: req.body.email,
-                    status: "INACTIVE"
-                });
-                res.redirect('/?message=' + encodeURIComponent("user: " + req.body.fname + " successfully register"));
-            }
-        });
-    }
-});
-
-
-app.get('/about', function (req, res) {
-    res.render('Auth/about', {
-        title: "Price Drop Alert",
-        pagetitle: "About",
-        message: "Build by Anshul & Saunish"
-    });
-});
-
 
 app.get('/user/:userID', function (req, res) {
     var glob = {};
@@ -432,7 +366,6 @@ app.get('/user/:userID', function (req, res) {
     else
         res.redirect('/?message=' + encodeURIComponent("User is not logged in"));
 });
-
 
 app.post('/user/:userID', function (req, res) {
 
@@ -698,7 +631,6 @@ app.post('/user/:userID', function (req, res) {
     }
 });
 
-
 app.get('/user/:userID/info/:product', function (req, res) {
     var glob = {};
     var authData = ref.getAuth();
@@ -896,7 +828,6 @@ app.get('/user/:userID/profile', function (req, res) {
         res.redirect('/?message=' + encodeURIComponent("User is not logged in"));
 });
 
-
 app.post('/user/:userID/profile', function (req, res) {
     if (req.body.logout == "Log Out") {
         ref.unauth();
@@ -906,7 +837,6 @@ app.post('/user/:userID/profile', function (req, res) {
         res.redirect('/user/' + req.params.userID + "/profile/edit");
     }
 });
-
 
 app.get('/user/:userID/profile/edit', function (req, res) {
     var authData = ref.getAuth();
@@ -989,45 +919,12 @@ app.post('/user/:userID/profile/edit', function (req, res) {
     }
 });
 
-//
-//Ends here
-//
 
-// catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-// error handlers
-
-/*
-
- // development error handler
- // will print stacktrace
- if (app.get('env') === 'development') {
- app.use(function(err, req, res, next) {
- res.status(err.status || 500);
- res.render('error', {
- message: err.message,
- error: err
- });
- });
- }
-
- // production error handler
- // no stacktraces leaked to user
- app.use(function(err, req, res, next) {
- res.status(err.status || 500);
- res.render('error', {
- message: err.message,
- error: {}
- });
- });
-
-
-
- */
 
 module.exports = app;
